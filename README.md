@@ -9,6 +9,13 @@ The two most notable differences between Version 3 and Version 4 of the MCC Muta
 
 --------
 
+
+
+Update 1.01: 2022-12-18
+
+Updates to mccMutant.php, mutant.css, and classDetails.php.  New files added: defectsMutation.php, mentalMutation.php, mutationStatAdjustment.php, mutationCheckMiniums.php, physicalMutations.php, and zeroLevelMutantAppearance.php. 
+
+
 Initial Commit: 2022-11-24
 
 The Initial commit for the Mutant Character Generator Version 4.
