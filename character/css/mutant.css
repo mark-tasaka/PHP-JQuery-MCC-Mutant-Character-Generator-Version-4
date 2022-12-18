@@ -12,8 +12,9 @@ body{
 /* id rules
 --------------------*/
 #character_sheet{
+    position:absolute;
     width: 950px;
-    height: auto;
+    height: 2496px;
 	display: block;
 }
 
@@ -21,13 +22,6 @@ body{
 /*MCC Sentinel Generator Version 3 post data css*/
 
 #characterName{
-    position:absolute;
-    top: 125px;
-    left: 70px;
-	font-size: 0.8em;
-}
-
-#characterName2{
     position:absolute;
     top: 125px;
     left: 70px;
@@ -131,10 +125,10 @@ body{
 
 #abilityScoreGeneration{
     position:absolute;
-    top: 1135px;
+    top: 1145px;
     left: 685px;
     font-size: 0.5em;
-    width: 240px;
+    width: 225px;
 }
 
 
@@ -366,18 +360,35 @@ body{
 }
 
 
-#artifactCheck{
+#initiative{
     position:absolute;
-    top: 520px;
-    left: 810px;
-    font-size: 1.2em;
+    top: 500px;
+    left: 660px;
+    font-size: 1em;
 }
 
-#naturalHealingPerDay
+#artifactCheck{
+    position:absolute;
+    top: 395px;
+    left: 710px;
+    font-size: 1.1em;
+    color: white;
+}
+
+#zeroLvMutantAppearance{
+    position:absolute;
+    top: 890px;
+    left: 50px;
+    font-size: 0.8em;
+    width: 260px;
+}
+
+
+#mutantHorrorBonus
 {
     position:absolute;
-    top: 520px;
-    left: 655px;
+    top: 500px;
+    left: 815px;
     font-size: 1.2em;
 }
 
@@ -395,18 +406,11 @@ body{
     font-size: 0.9em;
 }
 
-#initiative{
-    position:absolute;
-    top: 395px;
-    left: 710px;
-    font-size: 1.1em;
-    color: white;
-}
 
 #actionDice{
     position:absolute;
     top: 250px;
-    left: 220px;
+    left: 210px;
     font-size: 0.8em;
 }
 
@@ -596,4 +600,41 @@ body{
     left: 585px;
     width: 330px;
 	font-size: 0.5em;
+}
+
+#characterPhysicalMutations
+{
+    position: absolute;
+    top: 1350px;
+    left: 120px;
+    width: 330px;
+	font-size: 0.6em;
+}
+
+
+#characterMentalMutations
+{
+    position: absolute;
+    top: 1360px;
+    left: 542px;
+    width: 330px;
+	font-size: 0.6em;
+}
+
+
+#mutationDefectAdjust
+{
+    position: absolute;
+    top: 2355px;
+    left: 120px;
+    width: 330px;
+	font-size: 0.6em;
+}
+
+#characterDefectMutations{
+        position: absolute;
+        top: 2250px;
+        left: 535px;
+        width: 380px;
+        font-size: 0.55em;
 }

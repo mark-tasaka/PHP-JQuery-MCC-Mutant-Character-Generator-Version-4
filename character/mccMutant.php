@@ -43,6 +43,12 @@
     include 'php/profession.php';
     include 'php/nameSelect.php';
     include 'php/gender.php';
+    include 'php/zeroLevelMutantAppearance.php';
+    include 'php/physicalMutations.php';
+    include 'php/mentalMutations.php';
+    include 'php/defectsMutation.php';
+    include 'php/mutantationStatAdjustment.php';
+    include 'php/mutationCheckMiniums.php';
     
 
         if(isset($_POST["theCharacterName"]))
@@ -197,6 +203,281 @@
         $strengthBonusFromArtifact = artifactstrengthbonus ($artifactName4);
 
         
+
+        $physicalMutationArray = array();
+
+        for($m = 0; $m < 26; ++$m)
+        {
+            array_push($physicalMutationArray, $m);
+        }
+
+        shuffle($physicalMutationArray);
+
+        
+        $mentalMutationArray = array();
+
+        for($m = 0; $m < 26; ++$m)
+        {
+            array_push($mentalMutationArray, $m);
+        }
+
+        
+        $defectMutationArray = array();
+
+        for($m = 0; $m < 25; ++$m)
+        {
+            array_push($defectMutationArray, $m);
+        }
+
+        shuffle($mentalMutationArray);
+
+        if(isset($_POST["thePhysicalMutuation"]))
+        {
+            $physicalMutationString = $_POST["thePhysicalMutuation"];
+            //casting not necessary with php (it's good practice)
+            $physicalMutationTotal = (int)$physicalMutationString;
+        }
+        
+        if(isset($_POST["theMentalMutuation"]))
+        {
+            $mentalMutationString = $_POST["theMentalMutuation"];
+            //casting not necessary with php (it's good practice)
+            $mentalMutationTotal = (int)$mentalMutationString;
+        }
+
+         
+        if(isset($_POST["theDefects"]))
+        {
+            $defectMutationString = $_POST["theDefects"];
+            //casting not necessary with php (it's good practice)
+            $defectMutationTotal = (int)$defectMutationString;
+        }
+
+        if(isset($_POST['theRandomMutuations']) && $_POST['theRandomMutuations'] == 1) 
+        {
+            $dieRollPhysicalMutations = rand(1, 3);
+            $physicalMutationTotal = $dieRollPhysicalMutations;
+
+            $dieRollMentalMutations = rand(1, 2);
+            $mentalMutationTotal = $dieRollMentalMutations;
+
+            $defectMutationTotal = 0;
+        } 
+
+        $characterPhysicalMutations = array();
+        $characterMentalMutations = array();
+        $characterDefectMutations = array();
+
+        //Mutation/Defect Adjustments
+        //0-4
+        $mutantStrAdj = 0;
+        $mutantAgiAdj = 0;
+        $mutantStaAdj = 0;
+        $mutantPerAdj = 0;
+        $mutantIntAdj = 0;
+        //5 - 7
+        $mutantACAdj = 0;
+        $mutantInitAdj = 0;
+        $mutantActionDieAdj = 0;
+        //8-9
+        $mutantMeleeAdj = 0;
+        $mutantMissileAdj = 0;
+        //10-12
+        $mutantRefAdj = 0;
+        $mutantFortAdj = 0;
+        $mutantWillAdj = 0;
+        //13
+        $mutantSpeedAdj = 0;
+
+
+        for($k = 0; $k < $physicalMutationTotal; ++$k)
+        {
+            $mutationNumber = $physicalMutationArray[$k];
+
+            $mutationName = getPhysicalMutationName($mutationNumber);
+            $mutationType = getPhyicalMutationType($mutationNumber);
+            $mutationManifest = getPhysicalMutationManifestation($mutationNumber);
+
+            if($mutationNumber <= 10)
+            {
+                $mutationEffect = "A mutation check roll each time the active mutation is used.";
+            }
+            else
+            {
+                $dieRoll = rand(0, 5);
+
+                $mutationEffect = getPhyicalMutationEffect($mutationNumber, $dieRoll);
+
+                $mutantAdjustmentArray = getPhyicalMutationAdjustments($mutationNumber, $dieRoll);
+
+                //Mutation/Defect Adjustments
+                //0-4
+                $mutantStrAdj += $mutantAdjustmentArray[0];
+                $mutantAgiAdj += $mutantAdjustmentArray[1];
+                $mutantStaAdj += $mutantAdjustmentArray[2];
+                $mutantPerAdj += $mutantAdjustmentArray[3];
+                $mutantIntAdj += $mutantAdjustmentArray[4];
+                //5 - 7
+                $mutantACAdj += $mutantAdjustmentArray[5];
+                $mutantInitAdj += $mutantAdjustmentArray[6];
+                $mutantActionDieAdj += $mutantAdjustmentArray[7];
+                //8-9
+                $mutantMeleeAdj += $mutantAdjustmentArray[8];
+                $mutantMissileAdj += $mutantAdjustmentArray[9];
+                //10-12
+                $mutantRefAdj += $mutantAdjustmentArray[10];
+                $mutantFortAdj += $mutantAdjustmentArray[11];
+                $mutantWillAdj += $mutantAdjustmentArray[12];
+                //13
+                $mutantSpeedAdj += $mutantAdjustmentArray[13];
+
+            }
+
+            $mutation = 'Mutation: ' . $mutationName . ' (' . $mutationType . ')<br/><br/>Manifestation: ' . $mutationManifest  . '<br/><br/>Effect: ' . $mutationEffect;
+
+            array_push($characterPhysicalMutations, $mutation);
+        }
+
+        
+        for($k = 0; $k < $mentalMutationTotal; ++$k)
+        {
+            $mutationNumber = $mentalMutationArray[$k];
+
+            $mutationName = getMentalMutationName($mutationNumber);
+            $mutationType = getMentalMutationType($mutationNumber);
+            $mutationManifest = getMentalMutationManifestation($mutationNumber);
+
+            if($mutationNumber <= 22)
+            {
+                $mutationEffect = "A mutation check roll each time the active mutation is used.";
+            }
+            else
+            {
+                $dieRoll = rand(0, 5);
+
+                $mutationEffect = getMentalMutationEffect($mutationNumber, $dieRoll);
+
+                $mutantAdjustmentArray = getMentalMutationAdjustments($mutationNumber, $dieRoll);
+
+                //Mutation/Defect Adjustments
+                //0-4
+                $mutantStrAdj += $mutantAdjustmentArray[0];
+                $mutantAgiAdj += $mutantAdjustmentArray[1];
+                $mutantStaAdj += $mutantAdjustmentArray[2];
+                $mutantPerAdj += $mutantAdjustmentArray[3];
+                $mutantIntAdj += $mutantAdjustmentArray[4];
+                //5 - 7
+                $mutantACAdj += $mutantAdjustmentArray[5];
+                $mutantInitAdj += $mutantAdjustmentArray[6];
+                $mutantActionDieAdj += $mutantAdjustmentArray[7];
+                //8-9
+                $mutantMeleeAdj += $mutantAdjustmentArray[8];
+                $mutantMissileAdj += $mutantAdjustmentArray[9];
+                //10-12
+                $mutantRefAdj += $mutantAdjustmentArray[10];
+                $mutantFortAdj += $mutantAdjustmentArray[11];
+                $mutantWillAdj += $mutantAdjustmentArray[12];
+                //13
+                $mutantSpeedAdj += $mutantAdjustmentArray[13];
+
+            }
+
+            $mutation = 'Mutation: ' . $mutationName . ' (' . $mutationType . ')<br/><br/>Manifestation: ' . $mutationManifest . '<br/><br/>Effect: ' . $mutationEffect;
+
+            array_push($characterMentalMutations, $mutation);
+        }
+
+                
+        for($k = 0; $k < $defectMutationTotal; ++$k)
+        {
+            $mutationNumber = $defectMutationArray[$k];
+
+            $mutationName = getDefectMutationName($mutationNumber);
+            $mutationType = getDefectlMutationType($mutationNumber);
+
+            if($mutationNumber <= 1)
+            {
+                $mutationEffect = "A mutation check roll each time the active mutation is used.";
+            }
+            else
+            {
+                $dieRoll = rand(0, 4);
+
+                $mutationEffect = getDefectMutationEffect($mutationNumber, $dieRoll);
+
+                $mutantAdjustmentArray = getDefectsAdjustments($mutationNumber, $dieRoll);
+
+                //Mutation/Defect Adjustments
+                //0-4
+                $mutantStrAdj += $mutantAdjustmentArray[0];
+                $mutantAgiAdj += $mutantAdjustmentArray[1];
+                $mutantStaAdj += $mutantAdjustmentArray[2];
+                $mutantPerAdj += $mutantAdjustmentArray[3];
+                $mutantIntAdj += $mutantAdjustmentArray[4];
+                //5 - 7
+                $mutantACAdj += $mutantAdjustmentArray[5];
+                $mutantInitAdj += $mutantAdjustmentArray[6];
+                $mutantActionDieAdj += $mutantAdjustmentArray[7];
+                //8-9
+                $mutantMeleeAdj += $mutantAdjustmentArray[8];
+                $mutantMissileAdj += $mutantAdjustmentArray[9];
+                //10-12
+                $mutantRefAdj += $mutantAdjustmentArray[10];
+                $mutantFortAdj += $mutantAdjustmentArray[11];
+                $mutantWillAdj += $mutantAdjustmentArray[12];
+                //13
+                $mutantSpeedAdj += $mutantAdjustmentArray[13];
+
+            }
+
+            $mutation = 'Defect: ' . $mutationName . ' (' . $mutationType . ') <br/><br/>Effect: ' . $mutationEffect;
+
+
+            array_push($characterDefectMutations, $mutation);
+        }
+
+
+
+
+        $actionDiceBase = actionDiceCode($level);
+
+        $actionDiceBase += $mutantActionDieAdj;
+
+        $actionDice = convertActionDice($actionDiceBase);
+
+        $eMutantStrAdj = getStrMessage($mutantStrAdj);
+        $eMutantAgiAdj = getAgiMessage($mutantAgiAdj);
+        $eMutantStaAdj = getStaMessage($mutantStaAdj);
+        $eMutantPerAdj = getPerMessage($mutantPerAdj);
+        $eMutantIntAdj = getIntMessage($mutantIntAdj);
+        
+        $eMutantACAdj = getACMessage($mutantACAdj);
+        $eMutantInitAdj = getInitMessage($mutantInitAdj);
+        $eMutantActionDiceAdj = getActionDiceMessage($mutantActionDieAdj);
+        
+        $eMutantMeleeAdj = getMeleeMessage($mutantMeleeAdj);
+        $eMutantMissileAdj = getMissileMessage($mutantMissileAdj);
+        
+        $eMutantRefAdj = getRefMessage($mutantRefAdj);
+        $eMutantFortAdj = getFortMessage($mutantFortAdj);
+        $eMutantWillAdj = getWillMessage($mutantWillAdj);
+        
+        $eMutantSpeedAdj = getSpeedMessage($mutantSpeedAdj);
+
+        $messageAdjArray = array($eMutantStrAdj, $eMutantAgiAdj, $eMutantStaAdj, $eMutantPerAdj, $eMutantIntAdj, $eMutantACAdj, $eMutantInitAdj, $eMutantActionDiceAdj, $eMutantMeleeAdj, $eMutantMissileAdj, $eMutantRefAdj, $eMutantFortAdj, $eMutantWillAdj, $eMutantSpeedAdj);
+
+        $messageAdjArray2 = array();
+
+        for($m = 0; $m < count($messageAdjArray); ++$m)
+        {
+            if($messageAdjArray[$m] != "")
+            {
+                array_push($messageAdjArray2, $messageAdjArray[$m]);
+            }
+        }
+
+
+        
         $abilityScoreArray = array();
 
         if(isset($_POST['theCustomAbilityScore']) && $_POST['theCustomAbilityScore'] == 1) 
@@ -286,6 +567,15 @@
 
         $strength = $strengthBonusFromArtifact + $strengthBase;
 
+        
+        //Add Mutant/Defect adjustments to ability scores
+        $strength += $mutantStrAdj;
+        $agility += $mutantAgiAdj;
+        $stamina += $mutantStaAdj;
+        $personality += $mutantPerAdj;
+        $intelligence += $mutantIntAdj;
+
+
         $strengthMod = getStrengthModifier($strength);
         $agilityMod = getAbilityModifier($agility);
         $staminaMod = getAbilityModifier($stamina);
@@ -325,11 +615,16 @@
        $reflexBase = savingThrowReflex($level);
        $fortBase = savingThrowFort($level);
        $willBase = savingThrowWill($level);
+       
+       //add mutation/defect bonus to saving throws
+       $reflexBase += $mutantRefAdj;
+       $fortBase += $mutantFortAdj;
+       $willBase += $mutantWillAdj;
 
        $criticalDie = criticalDie($level);
 
 
-       $actionDice = actionDice($level);
+      // $actionDice = actionDice($level);
 
 
        $title = title($level);
@@ -432,12 +727,22 @@
 
     $artifactCheckBonusPlusInt = $artifactCheckBonus + $intelligenceMod;
 
-    $naturalHealingPerDay = getNaturalHealingPerDay($level);
+    //$naturalHealingPerDay = getNaturalHealingPerDay($level);
 
 
     $profession = getProfession();
 
     $attackBonus = getAttackBonus($level);
+
+    
+    $mutantHorrorBonus = getMutantHorrorBonus($level);
+
+    $mutantHorrorPart1 = getMutantHorrorPart1($level);
+    $mutantHorrorPart2 = getMutantHorrorPart2($level);
+    
+
+    $zeroLvMutantAppearance = getMutantAppearance();
+
 
     
     
@@ -496,11 +801,6 @@
        </span>
 
        
-       <span id="naturalHealingPerDay">
-           <?php
-                echo $naturalHealingPerDay;
-           ?>
-        </span>
 
 
         <span id="maxTech"></span>
@@ -682,7 +982,7 @@
         
         <span id="actionDice">
             <?php
-                echo $actionDice;
+             //   echo $actionDice;
             ?>
         </span>
 
@@ -770,6 +1070,76 @@
            echo $profession;;
            ?>
        </span>
+
+       
+       <span id="mutantHorrorBonus">
+           <?php
+                echo $mutantHorrorBonus;
+           ?>
+        </span>
+        
+
+        <span id="characterPhysicalMutations">
+        <?php
+
+           foreach($characterPhysicalMutations as $thePMutations)
+           {
+               echo $thePMutations;
+               echo "<br/>----------------------------------------------------------<br/>";
+           }
+           
+           
+           ?>  
+        </span>
+        
+        <span id="characterMentalMutations">
+        <?php
+           
+           foreach($characterMentalMutations as $theMMutations)
+           {
+               echo $theMMutations;
+               echo "<br/>----------------------------------------------------------<br/>";
+           }
+           
+           ?>  
+        </span>
+        
+
+        <span id="characterDefectMutations">
+        <?php
+           
+           foreach($characterDefectMutations as $theMMutations)
+           {
+               echo $theMMutations;
+               echo "<br/>----------------------------------------------------------<br/>";
+           }
+           
+           ?>  
+        </span>
+
+        
+        <span id="mutationDefectAdjust">
+        <?php
+
+            for($n = 0; $n < count($messageAdjArray2); ++$n)
+            {
+                if($n == 0)
+                {
+                    echo $messageAdjArray2[$n];
+                }
+                else if($n == (count($messageAdjArray2)-1) )
+                {
+                    echo ', ' . $messageAdjArray2[$n] . '.';
+                }
+                else
+                {
+                    echo ', ' . $messageAdjArray2[$n];
+                }
+            }
+
+           ?>  
+        </span>
+
        
 
        
