@@ -1,7 +1,4 @@
 <?php
-
-/*Mutant*/
-
 /*Mutant*/
 
 function savingThrowReflex($level)
@@ -200,39 +197,39 @@ function getArtifactCheckBonus($level)
           break;
           
         case 2:
-            $bonus = 0;
+            $bonus = 1;
           break;
           
         case 3:
-            $bonus = 1;
+            $bonus = 2;
           break;
 
         case 4:
-            $bonus = 1;
+            $bonus = 3;
           break;
           
         case 5:
-            $bonus = 2;
-          break;
-          
-        case 6:
-            $bonus = 3;
-          break;
-
-          case 7:
             $bonus = 4;
           break;
           
-        case 8:
+        case 6:
             $bonus = 5;
           break;
-          
-        case 9:
+
+          case 7:
             $bonus = 6;
           break;
           
-        case 10:
+        case 8:
             $bonus = 7;
+          break;
+          
+        case 9:
+            $bonus = 8;
+          break;
+          
+        case 10:
+            $bonus = 9;
           break;
           
         default:

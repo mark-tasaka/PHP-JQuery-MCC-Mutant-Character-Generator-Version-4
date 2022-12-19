@@ -28,6 +28,14 @@ body{
 	font-size: 0.8em;
 }
 
+#characterName2{
+    position:absolute;
+    top: 125px;
+    left: 70px;
+	font-size: 0.8em;
+}
+
+
 #gender{
     position:absolute;
     top: 125px;
@@ -125,10 +133,10 @@ body{
 
 #abilityScoreGeneration{
     position:absolute;
-    top: 1145px;
+    top: 1125px;
     left: 685px;
     font-size: 0.5em;
-    width: 225px;
+    width: 250px;
 }
 
 
@@ -363,16 +371,15 @@ body{
 #initiative{
     position:absolute;
     top: 500px;
-    left: 660px;
-    font-size: 1em;
+    left: 830px;
+    font-size: 1.3em;
 }
 
 #artifactCheck{
     position:absolute;
-    top: 395px;
-    left: 710px;
-    font-size: 1.1em;
-    color: white;
+    top: 500px;
+    left: 660px;
+    font-size: 1.3em;
 }
 
 #zeroLvMutantAppearance{
@@ -387,8 +394,8 @@ body{
 #mutantHorrorBonus
 {
     position:absolute;
-    top: 500px;
-    left: 815px;
+    top: 840px;
+    left: 780px;
     font-size: 1.2em;
 }
 
